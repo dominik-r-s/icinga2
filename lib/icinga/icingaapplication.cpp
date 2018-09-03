@@ -45,19 +45,7 @@ INITIALIZE_ONCE_WITH_PRIORITY(&IcingaApplication::StaticInitialize, 50);
 
 void IcingaApplication::StaticInitialize()
 {
-	String node_name = Utility::GetFQDN();
-
-	if (node_name.IsEmpty()) {
-		Log(LogNotice, "IcingaApplication", "No FQDN available. Trying Hostname.");
-		node_name = Utility::GetHostName();
-
-		if (node_name.IsEmpty()) {
-			Log(LogWarning, "IcingaApplication", "No FQDN nor Hostname available. Setting Nodename to 'localhost'.");
-			node_name = "localhost";
-		}
-	}
-
-	ScriptGlobal::Set("NodeName", node_name);
+	ScriptGlobal::Set("NodeName", Utility::GetNodeName());
 
 	ScriptGlobal::Set("System.ApplicationType", "IcingaApplication", true);
 

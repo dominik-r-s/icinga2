@@ -121,6 +121,7 @@ public:
 
 	static String GetHostName();
 	static String GetFQDN();
+	static String GetNodeName();
 
 	static tm LocalTime(time_t ts);
 

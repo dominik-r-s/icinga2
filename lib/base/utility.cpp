@@ -1307,6 +1307,23 @@ String Utility::GetFQDN()
 	return hostname;
 }
 
+String Utility::GetNodeName()
+{
+	String nodeName = Utility::GetFQDN();
+
+	if (nodeName.IsEmpty()) {
+		Log(LogNotice, "IcingaApplication", "No FQDN available. Trying Hostname.");
+		nodeName = Utility::GetHostName();
+
+		if (nodeName.IsEmpty()) {
+			Log(LogWarning, "IcingaApplication", "No FQDN nor Hostname available. Setting Nodename to 'localhost'.");
+			nodeName = "localhost";
+		}
+	}
+
+	return nodeName;
+}
+
 int Utility::Random()
 {
 #ifdef _WIN32
