@@ -96,6 +96,21 @@ static std::vector<String> GlobalArgumentCompletion(const String& argument, cons
 		return std::vector<String>();
 }
 
+static void PreInitializeNamespace()
+{
+	ScriptGlobal::Set("NodeName", Utility::GetNodeName());
+	ScriptGlobal::Set("System.ApplicationType", "IcingaApplication", true);
+	ScriptGlobal::Set("System.ApplicationVersion", Application::GetAppVersion(), true);
+
+	Namespace::Ptr globalNS = ScriptGlobal::GetGlobals();
+
+	auto icingaNSBehavior = new ConstNamespaceBehavior();
+	icingaNSBehavior->Freeze();
+	Namespace::Ptr icingaNS = new Namespace(icingaNSBehavior);
+	globalNS->SetAttribute("Icinga", std::make_shared<ConstEmbeddedNamespaceValue>(icingaNS));
+
+}
+
 static void HandleLegacyDefines()
 {
 #ifdef _WIN32
@@ -309,6 +324,9 @@ static int Main()
 	ScriptGlobal::Set("System.BuildHostName", ICINGA_BUILD_HOST_NAME, true);
 	ScriptGlobal::Set("System.BuildCompilerName", ICINGA_BUILD_COMPILER_NAME, true);
 	ScriptGlobal::Set("System.BuildCompilerVersion", ICINGA_BUILD_COMPILER_VERSION, true);
+
+	/* Pre-initialize specific namespace entries. */
+	PreInitializeNamespace();
 
 	if (!autocomplete)
 		Application::SetResourceLimits();

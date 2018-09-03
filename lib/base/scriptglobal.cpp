@@ -28,6 +28,7 @@
 #include "base/exception.hpp"
 #include "base/namespace.hpp"
 #include <fstream>
+#include <iostream>
 
 using namespace icinga;
 
@@ -76,6 +77,8 @@ void ScriptGlobal::Set(const String& name, const Value& value, bool overrideFroz
 		}
 
 		parent->SetFieldByName(tokens[tokens.size() - 1], value, overrideFrozen, DebugInfo());
+
+		std::cout << "ScriptGlobal::Set: Name: " << name << " Value: " << value << std::endl;
 	}
 }
 

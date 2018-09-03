@@ -21,6 +21,7 @@
 #include "base/utility.hpp"
 #include "base/logger.hpp"
 #include "base/application.hpp"
+#include "base/serializer.hpp"
 #include "config/configcompiler.hpp"
 #include "config/configcompilercontext.hpp"
 #include "config/configitembuilder.hpp"
@@ -145,9 +146,14 @@ bool DaemonUtility::ValidateConfigFiles(const std::vector<std::string>& configs,
 	if (!success)
 		return false;
 
+
 	Namespace::Ptr systemNS = ScriptGlobal::Get("System");
-	Value vAppType;
-	VERIFY(systemNS->Get("ApplicationType", &vAppType));
+	std::cout << "Global NS: " << Serialize(ScriptGlobal::GetGlobals()) << std::endl;
+
+	Value vAppType = systemNS->Get("ApplicationType");
+
+//	Value vAppType;
+//	VERIFY(systemNS->Get("ApplicationType", &vAppType));
 
 	Type::Ptr appType = Type::GetByName(vAppType);
 

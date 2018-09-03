@@ -35,21 +35,25 @@
 #include "base/statsfunction.hpp"
 #include "base/loader.hpp"
 #include <fstream>
+#include <iostream>
 
 using namespace icinga;
 
 static Timer::Ptr l_RetentionTimer;
 
 REGISTER_TYPE(IcingaApplication);
-INITIALIZE_ONCE_WITH_PRIORITY(&IcingaApplication::StaticInitialize, 50);
+INITIALIZE_ONCE_WITH_PRIORITY(&IcingaApplication::StaticInitialize, 1000);
 
 void IcingaApplication::StaticInitialize()
 {
+	std::cout << "STATIC INITIALIZE ICINGAAPPLICATION" << std::endl;
+
 	ScriptGlobal::Set("NodeName", Utility::GetNodeName());
-
 	ScriptGlobal::Set("System.ApplicationType", "IcingaApplication", true);
-
 	ScriptGlobal::Set("System.ApplicationVersion", Application::GetAppVersion(), true);
+
+	//ScriptGlobal::Set("ApplicationType", "IcingaApplication", true);
+	//ScriptGlobal::Set("ApplicationVersion", Application::GetAppVersion(), true);
 
 	Namespace::Ptr globalNS = ScriptGlobal::GetGlobals();
 

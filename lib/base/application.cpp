@@ -136,6 +136,7 @@ void Application::InitializeBase()
 	sigaction(SIGPIPE, &sa, nullptr);
 #endif /* _WIN32 */
 
+	/* Ensure to execute static initializers. */
 	Loader::ExecuteDeferredInitializers();
 
 	/* Make sure the thread pool gets initialized. */
